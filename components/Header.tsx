@@ -19,6 +19,7 @@ type Theme = "light" | "dark";
 export function Header() {
   const { totalItems } = useCart();
   const [theme, setTheme] = useState<Theme>("light");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -93,19 +94,73 @@ export function Header() {
             <Button href="/shop" className="hidden sm:inline-flex">
               Ver tienda
             </Button>
+            <button
+              type="button"
+              aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={isMenuOpen}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              className="relative flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition hover:border-slate-300 hover:text-slate-900 dark:border-slate-700 dark:text-slate-200 dark:hover:text-white md:hidden"
+            >
+              <span
+                className={cn(
+                  "absolute h-0.5 w-5 rounded-full bg-current transition duration-300",
+                  isMenuOpen ? "translate-y-0 rotate-45" : "-translate-y-2"
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute h-0.5 w-5 rounded-full bg-current transition duration-300",
+                  isMenuOpen ? "opacity-0" : "opacity-100"
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute h-0.5 w-5 rounded-full bg-current transition duration-300",
+                  isMenuOpen ? "translate-y-0 -rotate-45" : "translate-y-2"
+                )}
+              />
+            </button>
           </div>
         </div>
-        <nav className="mt-4 flex flex-wrap gap-4 text-sm font-medium text-slate-600 dark:text-slate-300 md:hidden">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="transition hover:text-slate-900 dark:hover:text-white"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+        <div
+          className={cn(
+            "pointer-events-none mt-4 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl transition duration-300 dark:border-slate-800 dark:bg-slate-950/95 md:hidden",
+            isMenuOpen
+              ? "pointer-events-auto translate-y-0 opacity-100"
+              : "-translate-y-4 opacity-0"
+          )}
+        >
+          <nav className="grid gap-4 text-base font-semibold text-slate-700 dark:text-slate-100">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 transition hover:border-slate-200 hover:bg-slate-50 dark:hover:border-slate-800 dark:hover:bg-slate-900/60"
+              >
+                {link.label}
+                <span className="text-xs uppercase tracking-[0.2em] text-slate-400">Ir</span>
+              </Link>
+            ))}
+          </nav>
+          <div className="mt-6 flex flex-col gap-3 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-800 dark:bg-slate-900/50 dark:text-slate-300">
+            <span className="font-semibold text-slate-900 dark:text-white">
+              Tu carrito
+            </span>
+            <div className="flex items-center justify-between">
+              <span>
+                {totalItems} item{totalItems === 1 ? "" : "s"} guardados
+              </span>
+              <Button
+                href="/shop"
+                className="w-full justify-center rounded-2xl"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Ver tienda
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
   );
