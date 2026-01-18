@@ -55,7 +55,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/80">
-      <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6">
+      <div className="relative mx-auto w-full max-w-6xl px-4 py-4 sm:px-6">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 text-lg font-bold">
             <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-sky-600 text-white">
@@ -124,7 +124,7 @@ export function Header() {
         </div>
         <div
           className={cn(
-            "pointer-events-none mt-4 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl transition duration-300 dark:border-slate-800 dark:bg-slate-950/95 md:hidden",
+            "pointer-events-none absolute left-4 right-4 top-full mt-4 rounded-3xl border border-slate-200 bg-white/95 p-6 shadow-xl transition duration-300 dark:border-slate-800 dark:bg-slate-950/95 md:hidden",
             isMenuOpen
               ? "pointer-events-auto translate-y-0 opacity-100"
               : "-translate-y-4 opacity-0"
